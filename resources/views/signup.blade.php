@@ -1,37 +1,86 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
-    <link href="{{ asset('css/login.css') }}" rel="stylesheet">
+    <title>{{ config('app.name') }} | Register</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ asset('assets') }}/plugins/fontawesome-free/css/all.min.css">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="{{ asset('assets') }}/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{{ asset('assets') }}/dist/css/adminlte.min.css">
 </head>
 
-<body class="text-center">
-    <main class="form-signin w-100 m-auto">
-        <form>
-            <h1 class="h3 mb-3 fw-normal">Sign Up</h1>
+<body class="hold-transition register-page">
+    <div class="register-box">
+        <div class="register-logo">
+            <a href="{{ asset('assets') }}/index2.html"><b>ZK</b>Notes</a>
+        </div>
 
-            <div class="form-floating">
-                <input type="text" class="form-control" id="name">
-                <label for="name">Name</label>
-            </div>
-            <div class="form-floating">
-                <input type="email" class="form-control" id="email" placeholder="name@example.com">
-                <label for="email">Email address</label>
-            </div>
-            <div class="form-floating">
-                <input type="password" class="form-control" id="password" placeholder="Password">
-                <label for="password">Password</label>
-            </div>
+        <div class="card">
+            <div class="card-body register-card-body">
+                <p class="login-box-msg">Register a new account</p>
 
-            <button class="w-100 btn btn-lg btn-primary" type="submit">Sign Up</button>
-            <p class="mt-5 mb-3 text-muted">&copy; 2022</p>
-            <p><a href="{{ url('/login') }}">I already have an account</a></p>
-        </form>
-    </main>
+                <form action="{{ asset('assets') }}/index.html" method="post">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Full name">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" placeholder="Email">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="password" class="form-control" placeholder="Password">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="password" class="form-control" placeholder="Retype password">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 offset-8">
+                            <button type="submit" class="btn btn-primary btn-block">Register</button>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                </form>
+
+                <a href="{{ url('/login') }}" class="text-center">I already have an account</a>
+            </div>
+            <!-- /.form-box -->
+        </div><!-- /.card -->
+    </div>
+    <!-- /.register-box -->
+
+    <!-- jQuery -->
+    <script src="{{ asset('assets') }}/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{{ asset('assets') }}/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="{{ asset('assets') }}/dist/js/adminlte.min.js"></script>
 </body>
 
 </html>
