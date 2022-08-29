@@ -4,8 +4,9 @@ namespace Database\Seeders;
 
 use App\Models\Label;
 use App\Models\Note;
-use App\Models\PermanentNote;
-use App\Models\Project;
+use App\Models\NoteLabel;
+use App\Models\NoteTag;
+use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -27,21 +28,22 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Label::create([
-            'name' => 'Programming',
+            'name' => 'Thoughts',
         ]);
         Label::create([
-            'name' => 'Web Design',
-        ]);
-
-        Note::factory(8)->create();
-
-        Project::create([
-            'name' => 'My App',
-        ]);
-        Project::create([
             'name' => 'My Project',
         ]);
 
-        PermanentNote::factory(8)->create();
+        Note::factory(8)->create();
+        NoteLabel::factory(1)->create();
+
+        Tag::create([
+            'name' => 'Programming',
+        ]);
+        Tag::create([
+            'name' => 'Personal',
+        ]);
+
+        NoteTag::factory(5)->create();
     }
 }

@@ -14,8 +14,13 @@ class CreateNoteLabelsTable extends Migration
     public function up()
     {
         Schema::create('note_labels', function (Blueprint $table) {
-            $table->foreignId('note_id')->nullable();
-            $table->foreignId('label_id')->nullable();
+            $table->id();
+            $table->unsignedBigInteger('note_id');
+            $table->unsignedBigInteger('label_id');
+            $table->foreign('note_id')->references('id')->on('notes')->unique();
+            $table->foreign('label_id')->references('id')->on('labels')->nullable();
+            $table->integer('position')->nullable();
+            $table->timestamps();
         });
     }
 
