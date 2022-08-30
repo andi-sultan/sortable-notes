@@ -19,7 +19,7 @@ class CreateNoteLabelsTable extends Migration
             $table->unsignedBigInteger('label_id');
             $table->foreign('note_id')->references('id')->on('notes')->unique();
             $table->foreign('label_id')->references('id')->on('labels')->nullable();
-            $table->integer('position')->nullable();
+            $table->integer('position')->default(0);
             $table->timestamps();
         });
     }
