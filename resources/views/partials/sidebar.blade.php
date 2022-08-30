@@ -39,6 +39,14 @@
                     </a>
                 </li>
                 <li class="nav-header">Pages</li>
+                <li class="nav-item">
+                    <a href="{{ url('notes') }}" class="nav-link {{ Request::is('notes*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Notes
+                        </p>
+                    </a>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

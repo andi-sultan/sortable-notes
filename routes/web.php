@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\NoteController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,5 +27,8 @@ Route::get('/signup', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('pages.dashboard');
+    return view('pages.dashboard', ['title' => 'Dashboard']);
 });
+
+Route::post('/notes/getNotes', [NoteController::class, 'getNotes']);
+Route::resource('/notes', NoteController::class);
