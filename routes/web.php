@@ -26,5 +26,5 @@ Route::get('/signup', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('main');
+    return view('pages.dashboard');
 });
