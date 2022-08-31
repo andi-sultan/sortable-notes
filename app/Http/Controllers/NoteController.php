@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Arr;
 use App\Models\Note;
 use Illuminate\Http\Request;
-use Yajra\DataTables\DataTables;
+use Yajra\DataTables\Facades\DataTables;
 
 
 class NoteController extends Controller
@@ -23,14 +22,23 @@ class NoteController extends Controller
     public function getNotes(Request $request)
     {
         if ($request->ajax()) {
-            $data = Note::select('id', 'title', 'body')->where('user_id', 1);
-            // todo: find search functionality
-            $data = $data->get();
+            $note = Note::query();
 
-            return DataTables::of($data)
+            return DataTables::eloquent($note)
                 ->addIndexColumn()
+                ->filter(function ($query) use ($request) {
+                    $keyword = $request->get('search')['value'];
+                    $query->select('id', 'title', 'body');
+                    $query->where('user_id', 2);
+                    if (!empty($request->get('search')) && $keyword != '') {
+                        $query->where(function ($q) use ($keyword) {
+                            $q->where('title', 'like', '%' . $keyword . '%');
+                            $q->orWhere('body', 'like', '%' . $keyword . '%');
+                        });
+                    }
+                })
                 ->addColumn('action', function ($row) {
-                    $actionBtn = '<button>test</button>';
+                    $actionBtn = '<button class="btn btn-primary" data-id="' . $row->id . '">test</button>';
                     return $actionBtn;
                 })
                 ->rawColumns(['action'])

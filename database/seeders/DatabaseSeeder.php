@@ -34,7 +34,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'My Project',
         ]);
 
-        Note::factory(8)->create();
+        Note::factory(200)->create();
         NoteLabel::factory(1)->create();
 
         Tag::create([

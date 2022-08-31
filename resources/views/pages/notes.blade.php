@@ -10,16 +10,7 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table id="table" class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Title</th>
-                                <th>Content</th>
-                                <th>action</th>
-                            </tr>
-                        </thead>
-                    </table>
+                    <table id="table" class="table table-bordered table-striped"></table>
                 </div>
                 <!-- /.card-body -->
             </div>
@@ -44,19 +35,21 @@
                 },
                 columns: [{
                         data: 'DT_RowIndex',
-                        name: '#'
+                        name: '#',
+                        orderable: false,
+                        searchable: false
                     },
                     {
                         data: 'title',
-                        name: 'Title',
+                        title: 'Title',
                     },
                     {
                         data: 'body',
-                        name: 'Content'
+                        title: 'Content'
                     },
                     {
                         data: 'action',
-                        name: 'action',
+                        title: 'action',
                         orderable: false,
                         searchable: false
                     },
