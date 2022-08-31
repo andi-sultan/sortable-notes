@@ -42,7 +42,7 @@ class NoteController extends Controller
                     return $actionBtn;
                 })
                 ->rawColumns(['action'])
-                ->make(true);
+                ->toJson();
         }
         abort(403);
     }
