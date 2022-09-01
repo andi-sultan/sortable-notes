@@ -130,7 +130,6 @@
                     data: {
                         _token: "{{ csrf_token() }}",
                         _method: "PUT",
-                        id: id,
                         title: title,
                         body: body
                     },
@@ -149,7 +148,7 @@
             }
         }
 
-        let noteTimeout = null
+        let noteTimeout
         $('#title, #body').on('input', function() {
             $('#saving').text('Saving...')
             $('#body').removeClass('is-invalid')
@@ -163,6 +162,28 @@
 
         $('.close-editor').click(function() {
             table.ajax.reload();
+        })
+
+        $('#table').on('click', '.btn-delete', function() {
+            const id = $(this).data('id')
+            $.ajax({
+                type: 'POST',
+                url: "{{ url('notes') }}/" + id,
+                dataType: 'JSON',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    _method: 'DELETE'
+                },
+                beforeSend: () => {
+                    $('.btn').prop('disabled', true)
+                },
+                success: (data) => {
+                    alert(data)
+                },
+                error: (data) => {
+                    alert(data)
+                }
+            })
         })
     </script>
 @endsection

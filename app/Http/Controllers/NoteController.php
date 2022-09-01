@@ -102,7 +102,7 @@ class NoteController extends Controller
     {
         $validatedData = $request->validate(['body' => 'required']);
         $validatedData['title'] = $request->title;
-        $note::where('id', $request->id)->update($validatedData);
+        $note::where('id', $note->id)->update($validatedData);
 
         echo json_encode(array('statusCode' => 200));
     }
@@ -115,6 +115,6 @@ class NoteController extends Controller
      */
     public function destroy(Note $note)
     {
-        //
+        echo 'destroy';
     }
 }
