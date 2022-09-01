@@ -22,14 +22,13 @@ class NoteController extends Controller
     public function getNotes(Request $request)
     {
         if ($request->ajax()) {
-            $note = Note::query();
+            $note = Note::query()->where('user_id', 2);
 
             return DataTables::eloquent($note)
                 ->addIndexColumn()
                 ->filter(function ($query) use ($request) {
                     $keyword = $request->get('search')['value'];
                     $query->select('id', 'title', 'body');
-                    $query->where('user_id', 2);
                     if (!empty($request->get('search')) && $keyword != '') {
                         $query->where(function ($q) use ($keyword) {
                             $q->where('title', 'like', '%' . $keyword . '%');
