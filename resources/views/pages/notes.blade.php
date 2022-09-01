@@ -142,7 +142,7 @@
                         $('#cancel').prop('disabled', false)
                     },
                     error: function() {
-                        $('#saving').text('Not Saved')
+                        $('#saving').text('Error Saving!')
                         $('#cancel').prop('disabled', false)
                     }
                 })
