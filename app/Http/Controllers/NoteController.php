@@ -38,7 +38,8 @@ class NoteController extends Controller
                     }
                 })
                 ->addColumn('action', function ($row) {
-                    $actionBtn = '<button class="btn btn-primary" data-id="' . $row->id . '">test</button>';
+                    $actionBtn = '<button class="btn btn-sm btn-primary btn-edit" data-toggle="modal" data-target="#modal" onclick="editData(' . $row->id . ')">Edit</button>';
+                    $actionBtn .= '<button class="btn btn-sm btn-danger btn-delete" data-id="' . $row->id . '">Delete</button>';
                     return $actionBtn;
                 })
                 ->rawColumns(['action'])
@@ -87,7 +88,8 @@ class NoteController extends Controller
      */
     public function edit(Note $note)
     {
-        //
+        $data = $note->only('id', 'title', 'body');
+        echo json_encode($data);
     }
 
     /**
@@ -99,7 +101,11 @@ class NoteController extends Controller
      */
     public function update(Request $request, Note $note)
     {
-        //
+        $validatedData = $request->validate(['body' => 'required']);
+        $validatedData['title'] = $request->title;
+        $note::where('id', $request->id)->update($validatedData);
+
+        echo json_encode(array('statusCode' => 200));
     }
 
     /**
