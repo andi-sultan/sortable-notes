@@ -3,8 +3,9 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Notes</h3>
+                <div class="card-header d-flex justify-content-between">
+                    <h3 class="card-title mr-auto">Notes</h3>
+                    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal">+ Add New</button>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -94,13 +95,15 @@
             ]
         });
 
-        function editData(data_id) {
+        $('#modal').on('show.bs.modal', function() {
             $('#id').val('')
             $('#title').val('')
             $('#body').val('')
             $('#saving').text('')
             $('#body-error').removeClass('d-block')
+        })
 
+        function editData(data_id) {
             $.ajax({
                 method: 'GET',
                 url: "{{ url('notes') }}/" + data_id + "/edit",
@@ -123,26 +126,37 @@
                 $('#body-error').addClass('d-block')
                 $('#saving').text('Not Saved')
             } else {
+                let url = ''
+                let method = ''
+                if (id) {
+                    url = "{{ url('notes') }}/" + id
+                    method = 'PUT'
+                } else {
+                    url = "{{ url('notes') }}"
+                    method = 'POST'
+                }
+
                 $.ajax({
                     type: "POST",
-                    url: "{{ url('notes') }}/" + id,
+                    url: url,
                     dataType: "JSON",
                     data: {
                         _token: "{{ csrf_token() }}",
-                        _method: "PUT",
+                        _method: method,
                         title: title,
                         body: body
                     },
                     beforeSend: function() {
-                        $('#cancel').prop('disabled', true)
+                        $('.close-editor').prop('disabled', true)
                     },
-                    success: function() {
+                    success: function(data) {
+                        if (data.lastId) $('#id').val(data.lastId);
                         $('#saving').text('Saved')
-                        $('#cancel').prop('disabled', false)
+                        $('.close-editor').prop('disabled', false)
                     },
                     error: function() {
                         $('#saving').text('Error Saving!')
-                        $('#cancel').prop('disabled', false)
+                        $('.close-editor').prop('disabled', false)
                     }
                 })
             }
@@ -156,7 +170,7 @@
 
             clearTimeout(noteTimeout)
             noteTimeout = setTimeout(function() {
-                if ($('#id').val() !== '') save()
+                save()
             }, 500);
         })
 
@@ -177,39 +191,41 @@
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Yes, delete it!'
-            }).then(() => {
-                $.ajax({
-                    type: 'POST',
-                    url: "{{ url('notes') }}/" + id,
-                    dataType: 'JSON',
-                    data: {
-                        _token: "{{ csrf_token() }}",
-                        _method: 'DELETE'
-                    },
-                    beforeSend: () => {
-                        $('.btn').prop('disabled', true)
-                    },
-                    success: () => {
-                        Swal.fire(
-                            'Success!',
-                            'Your note has been deleted.',
-                            'success'
-                        ).then(() => {
-                            $('.btn').prop('disabled', false)
-                            table.ajax.reload();
-                        })
-                    },
-                    error: () => {
-                        Swal.fire(
-                            'Failed!',
-                            'Failed to delete note.',
-                            'error'
-                        ).then(() => {
-                            $('.btn').prop('disabled', false)
-                            table.ajax.reload();
-                        })
-                    }
-                })
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        type: 'POST',
+                        url: "{{ url('notes') }}/" + id,
+                        dataType: 'JSON',
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                            _method: 'DELETE'
+                        },
+                        beforeSend: () => {
+                            $('.btn').prop('disabled', true)
+                        },
+                        success: () => {
+                            Swal.fire(
+                                'Success!',
+                                'Your note has been deleted.',
+                                'success'
+                            ).then(() => {
+                                $('.btn').prop('disabled', false)
+                                table.ajax.reload();
+                            })
+                        },
+                        error: () => {
+                            Swal.fire(
+                                'Failed!',
+                                'Failed to delete note.',
+                                'error'
+                            ).then(() => {
+                                $('.btn').prop('disabled', false)
+                                table.ajax.reload();
+                            })
+                        }
+                    })
+                }
             })
         })
     </script>

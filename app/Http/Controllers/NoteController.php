@@ -71,7 +71,13 @@ class NoteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate(['body' => 'required']);
+        $validatedData['title'] = $request->title;
+        $validatedData['user_id'] = 2;
+        $note = Note::create($validatedData);
+        $lastInsertedId = $note::orderBy('id', 'DESC')->first()->id;
+
+        echo json_encode(['statusCode' => 200, 'lastId' => $lastInsertedId]);
     }
 
     /**
