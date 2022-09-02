@@ -19,6 +19,12 @@ class NoteController extends Controller
         return view('pages.notes', ['title' => 'Notes']);
     }
 
+    /**
+     * Get data for DataTable
+     *
+     * @param  mixed $request
+     * @return json data
+     */
     public function getNotes(Request $request)
     {
         if ($request->ajax()) {
@@ -38,7 +44,7 @@ class NoteController extends Controller
                 })
                 ->addColumn('action', function ($row) {
                     $actionBtn = '<button class="btn btn-sm btn-primary btn-edit" data-toggle="modal" data-target="#modal" onclick="editData(' . $row->id . ')">Edit</button>';
-                    $actionBtn .= '<button class="btn btn-sm btn-danger btn-delete" data-id="' . $row->id . '">Delete</button>';
+                    $actionBtn .= '<button class="btn btn-sm btn-danger btn-delete" data-id="' . $row->id . '" data-title="' . $row->title . '">Delete</button>';
                     return $actionBtn;
                 })
                 ->rawColumns(['action'])
@@ -115,6 +121,7 @@ class NoteController extends Controller
      */
     public function destroy(Note $note)
     {
-        echo 'destroy';
+        Note::destroy($note->id);
+        echo json_encode(['statusCode' => 200]);
     }
 }

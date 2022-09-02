@@ -166,23 +166,50 @@
 
         $('#table').on('click', '.btn-delete', function() {
             const id = $(this).data('id')
-            $.ajax({
-                type: 'POST',
-                url: "{{ url('notes') }}/" + id,
-                dataType: 'JSON',
-                data: {
-                    _token: "{{ csrf_token() }}",
-                    _method: 'DELETE'
-                },
-                beforeSend: () => {
-                    $('.btn').prop('disabled', true)
-                },
-                success: (data) => {
-                    alert(data)
-                },
-                error: (data) => {
-                    alert(data)
-                }
+            const title = $(this).data('title')
+
+            Swal.fire({
+                title: 'Are you sure?',
+                html: 'You are about to delete note "' + title.bold() +
+                    '". You won\'t be able to revert this!',
+                type: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then(() => {
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ url('notes') }}/" + id,
+                    dataType: 'JSON',
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        _method: 'DELETE'
+                    },
+                    beforeSend: () => {
+                        $('.btn').prop('disabled', true)
+                    },
+                    success: () => {
+                        Swal.fire(
+                            'Success!',
+                            'Your note has been deleted.',
+                            'success'
+                        ).then(() => {
+                            $('.btn').prop('disabled', false)
+                            table.ajax.reload();
+                        })
+                    },
+                    error: () => {
+                        Swal.fire(
+                            'Failed!',
+                            'Failed to delete note.',
+                            'error'
+                        ).then(() => {
+                            $('.btn').prop('disabled', false)
+                            table.ajax.reload();
+                        })
+                    }
+                })
             })
         })
     </script>
