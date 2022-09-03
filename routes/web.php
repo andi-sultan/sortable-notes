@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\NoteController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\NoteController;
+use App\Http\Controllers\LabelController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,3 +33,6 @@ Route::get('/dashboard', function () {
 
 Route::post('/notes/getNotes', [NoteController::class, 'getNotes']);
 Route::resource('/notes', NoteController::class);
+
+Route::post('/labels/getLabels', [LabelController::class, 'getLabels']);
+Route::resource('/labels', LabelController::class);
