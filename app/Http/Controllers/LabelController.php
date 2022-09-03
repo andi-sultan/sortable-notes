@@ -21,7 +21,6 @@ class LabelController extends Controller
     public function getLabels(Request $request)
     {
         if ($request->ajax()) {
-            // todo: make label to have user_id (also in migration)
             $label = Label::query();
 
             return DataTables::eloquent($label)
@@ -33,7 +32,7 @@ class LabelController extends Controller
                 })
                 ->addColumn('action', function ($row) {
                     $actionBtn = '<button class="btn btn-sm btn-primary btn-edit" data-toggle="modal" data-target="#modal" onclick="editData(' . $row->id . ')">Edit</button>';
-                    $actionBtn .= '<button class="btn btn-sm btn-danger btn-delete" data-id="' . $row->id . '" data-title="' . $row->title . '">Delete</button>';
+                    $actionBtn .= '<button class="btn btn-sm btn-danger btn-delete" data-id="' . $row->id . '" data-name="' . $row->name . '">Delete</button>';
                     return $actionBtn;
                 })
                 ->rawColumns(['action'])
@@ -60,7 +59,12 @@ class LabelController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate(['name' => 'required']);
+        $validatedData['user_id'] = 2;
+        $label = Label::create($validatedData);
+        $lastInsertedId = $label::orderBy('id', 'DESC')->first()->id;
+
+        echo json_encode(['lastId' => $lastInsertedId]);
     }
 
     /**
@@ -82,7 +86,8 @@ class LabelController extends Controller
      */
     public function edit(Label $label)
     {
-        //
+        $data = $label->only('id', 'name');
+        echo json_encode($data);
     }
 
     /**
@@ -94,7 +99,9 @@ class LabelController extends Controller
      */
     public function update(Request $request, Label $label)
     {
-        //
+        $validatedData = $request->validate(['name' => 'required']);
+        Label::where('id', $label->id)->update($validatedData);
+        return 1;
     }
 
     /**
@@ -105,6 +112,7 @@ class LabelController extends Controller
      */
     public function destroy(Label $label)
     {
-        //
+        Label::destroy($label->id);
+        return true;
     }
 }
