@@ -27,7 +27,6 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('12345'),
         ]);
 
-        Label::factory(5)->create();
         Label::create([
             'name' => 'Thoughts',
             'user_id' => 2
@@ -36,11 +35,11 @@ class DatabaseSeeder extends Seeder
             'name' => 'My Project',
             'user_id' => 2
         ]);
+        Label::factory(10)->create();
 
         Note::factory(200)->create();
         NoteLabel::factory(1)->create();
 
-        Tag::factory(5)->create();
         Tag::create([
             'name' => 'Programming',
             'user_id' => 2
@@ -49,6 +48,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Personal',
             'user_id' => 2
         ]);
+        Tag::factory(20)->create();
 
         NoteTag::factory(5)->create();
     }
