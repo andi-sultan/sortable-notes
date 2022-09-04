@@ -21,7 +21,7 @@ class LabelController extends Controller
     public function getLabels(Request $request)
     {
         if ($request->ajax()) {
-            $label = Label::query();
+            $label = Label::query()->where('user_id', 'like', 2);
 
             return DataTables::eloquent($label)
                 ->addIndexColumn()
