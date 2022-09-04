@@ -32,7 +32,8 @@ class LabelController extends Controller
                 })
                 ->addColumn('action', function ($row) {
                     $actionBtn = '<button class="btn btn-sm btn-primary btn-edit" data-toggle="modal" data-target="#modal" onclick="editData(' . $row->id . ')">Edit</button>';
-                    $actionBtn .= '<button class="btn btn-sm btn-danger btn-delete" data-id="' . $row->id . '" data-name="' . $row->name . '">Delete</button>';
+                    $actionBtn .= '<a href="' . url('notes-by-label') . '/' . $row->id . '" class="btn btn-sm btn-success ml-1">View Notes</a>';
+                    $actionBtn .= '<button class="btn btn-sm btn-danger btn-delete ml-1" data-id="' . $row->id . '" data-name="' . $row->name . '">Delete</button>';
                     return $actionBtn;
                 })
                 ->rawColumns(['action'])

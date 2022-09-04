@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\LabelController;
+use App\Http\Controllers\NoteLabelController;
+use App\Models\NoteLabel;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,3 +38,6 @@ Route::resource('/notes', NoteController::class);
 
 Route::post('/labels/getLabels', [LabelController::class, 'getLabels']);
 Route::resource('/labels', LabelController::class);
+
+Route::get('/notes-by-label/{id}', [NoteLabelController::class, 'viewNotesByLabel']);
+Route::resource('/note-labels', NoteLabelController::class);
