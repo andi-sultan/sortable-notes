@@ -25,25 +25,58 @@ class NoteLabelController extends Controller
             'labelId' => $request->id
         ]);
     }
-    // public function viewNotesByLabel(Request $request)
-    // {
 
+    public function getData(Request $request)
+    {
+        if ($request->ajax()) {
+            $noteLabels = NoteLabel::note();
+
+            return DataTables::eloquent($noteLabels)
+                ->addIndexColumn()
+                ->filter(function ($query) use ($request) {
+                    $keyword = $request->get('search')['value'];
+                    $query->note();
+                    $query->select('id', 'title', 'body', 'name');
+                    if (!empty($request->get('search')) && $keyword != '') {
+                        $query->where(function ($q) use ($keyword) {
+                            $q->where('title', 'like', '%' . $keyword . '%');
+                            $q->orWhere('body', 'like', '%' . $keyword . '%');
+                        });
+                    }
+                })
+                ->addColumn('action', function ($row) {
+                    $actionBtn = '<button class="btn btn-sm btn-primary btn-edit" data-toggle="modal" data-target="#modal" onclick="editData(' . $row->id . ')">Edit</button>';
+                    $actionBtn .= '<button class="btn btn-sm btn-danger btn-delete" data-id="' . $row->id . '" data-title="' . $row->title . '">Delete</button>';
+                    return $actionBtn;
+                })
+                ->rawColumns(['action'])
+                ->toJson();
+        }
+        abort(403);
+    }
+    // public function getData(Request $request)
+    // {
     //     if ($request->ajax()) {
     //         $noteLabels = NoteLabel::query()
-    //             ->where('label_id', 'like', 2)
-    //             ->where('user_id', 'like', 2);
+    //             ->join('notes', 'note_labels.note_id', '=', 'notes.id')
+    //             ->join('labels', 'note_labels.label_id', '=', 'labels.id')
+    //             ->where('label_id', 'like', $request->id);
 
     //         return DataTables::eloquent($noteLabels)
     //             ->addIndexColumn()
     //             ->filter(function ($query) use ($request) {
     //                 $keyword = $request->get('search')['value'];
-    //                 $query->select('id', 'name')
-    //                     ->where('name', 'like', '%' . $keyword . '%');
+    //                 $query->select('notes.id', 'notes.title', 'notes.body', 'labels.name');
+    //                 if (!empty($request->get('search')) && $keyword != '') {
+    //                     $query->where(function ($q) use ($keyword) {
+    //                         $q->where('notes.title', 'like', '%' . $keyword . '%');
+    //                         $q->orWhere('notes.body', 'like', '%' . $keyword . '%');
+    //                     });
+    //                 }
     //             })
     //             ->addColumn('action', function ($row) {
     //                 $actionBtn = '<button class="btn btn-sm btn-primary btn-edit" data-toggle="modal" data-target="#modal" onclick="editData(' . $row->id . ')">Edit</button>';
-    //                 $actionBtn .= '<a href="' . url('notes') . '/' . $row->id . '" class="btn btn-sm btn-success ml-1">View Notes</a>';
-    //                 $actionBtn .= '<button class="btn btn-sm btn-danger btn-delete ml-1" data-id="' . $row->id . '" data-name="' . $row->name . '">Delete</button>';
+    //                 $actionBtn .= '<button class="btn btn-sm btn-danger btn-delete" data-id="' . $row->id . '" data-title="' . $row->title . '">Delete</button>';
     //                 return $actionBtn;
     //             })
     //             ->rawColumns(['action'])
