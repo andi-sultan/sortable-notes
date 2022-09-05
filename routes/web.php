@@ -40,4 +40,5 @@ Route::post('/labels/getLabels', [LabelController::class, 'getLabels']);
 Route::resource('/labels', LabelController::class);
 
 Route::get('/notes-by-label/{id}', [NoteLabelController::class, 'viewNotesByLabel']);
+Route::post('/note-labels/get-data', [NoteLabelController::class, 'getData']);
 Route::resource('/note-labels', NoteLabelController::class);

@@ -66,10 +66,11 @@
             processing: true,
             serverSide: true,
             ajax: {
-                url: "{{ url('/notes/getNotes') }}",
+                url: "{{ url('/note-labels/get-data') }}",
                 type: "POST",
                 data: {
-                    _token: "{{ csrf_token() }}"
+                    _token: "{{ csrf_token() }}",
+                    id:"{{ Request::segment(2) }}"
                 }
             },
             columns: [{
@@ -85,6 +86,10 @@
                 {
                     data: 'body',
                     title: 'Content'
+                },
+                {
+                    data: 'name',
+                    title: 'Label'
                 },
                 {
                     data: 'action',

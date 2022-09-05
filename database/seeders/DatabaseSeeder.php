@@ -38,7 +38,7 @@ class DatabaseSeeder extends Seeder
         Label::factory(10)->create();
 
         Note::factory(200)->create();
-        NoteLabel::factory(1)->create();
+        NoteLabel::factory(100)->create();
 
         Tag::create([
             'name' => 'Programming',
