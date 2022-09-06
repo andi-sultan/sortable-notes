@@ -9,4 +9,9 @@ class Label extends Model
 {
     use HasFactory;
     protected $fillable = ['name', 'user_id'];
+
+    public function noteLabels()
+    {
+        return $this->hasMany(NoteLabel::class);
+    }
 }

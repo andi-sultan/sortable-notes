@@ -29,24 +29,24 @@ class NoteLabelController extends Controller
     public function getData(Request $request)
     {
         if ($request->ajax()) {
-            $noteLabels = NoteLabel::note();
+            $noteLabels = NoteLabel::with('note', 'label')->get();
 
-            return DataTables::eloquent($noteLabels)
+            return DataTables::of($noteLabels)
                 ->addIndexColumn()
-                ->filter(function ($query) use ($request) {
-                    $keyword = $request->get('search')['value'];
-                    $query->note();
-                    $query->select('id', 'title', 'body', 'name');
-                    if (!empty($request->get('search')) && $keyword != '') {
-                        $query->where(function ($q) use ($keyword) {
-                            $q->where('title', 'like', '%' . $keyword . '%');
-                            $q->orWhere('body', 'like', '%' . $keyword . '%');
-                        });
-                    }
-                })
+                // ->filter(function ($query) use ($request) {
+                //     $keyword = $request->get('search')['value'];
+                //     $query->only('id', 'title', 'body', 'name');
+                //     if (!empty($request->get('search')) && $keyword != '') {
+                //         $query->where(function ($q) use ($keyword) {
+                //             $q->where('title', 'like', '%' . $keyword . '%');
+                //             $q->orWhere('body', 'like', '%' . $keyword . '%');
+                //         });
+                //     }
+                // })
+                ->only(['id','title','body','name'])
                 ->addColumn('action', function ($row) {
                     $actionBtn = '<button class="btn btn-sm btn-primary btn-edit" data-toggle="modal" data-target="#modal" onclick="editData(' . $row->id . ')">Edit</button>';
-                    $actionBtn .= '<button class="btn btn-sm btn-danger btn-delete" data-id="' . $row->id . '" data-title="' . $row->title . '">Delete</button>';
+                    $actionBtn .= '<button class="btn btn-sm btn-danger btn-delete" data-id="' . $row->note->id . '" data-title="' . $row->note->title . '">Delete</button>';
                     return $actionBtn;
                 })
                 ->rawColumns(['action'])
