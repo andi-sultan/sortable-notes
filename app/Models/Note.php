@@ -14,7 +14,7 @@ class Note extends Model
 
     protected $guarded = ['id'];
 
-    public function noteLabels()
+    public function noteLabel()
     {
         return $this->hasOne(NoteLabel::class);
     }

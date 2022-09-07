@@ -80,15 +80,15 @@
                     searchable: false
                 },
                 {
-                    data: 'title',
+                    data: 'note.title',
                     title: 'Title',
                 },
                 {
-                    data: 'body',
+                    data: 'note.body',
                     title: 'Content'
                 },
                 {
-                    data: 'name',
+                    data: 'label.name',
                     title: 'Label'
                 },
                 {
