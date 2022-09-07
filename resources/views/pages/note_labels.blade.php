@@ -65,19 +65,24 @@
         const table = $('#table').DataTable({
             processing: true,
             serverSide: true,
+            ordering: false,
+            paging: false,
             ajax: {
                 url: "{{ url('/note-labels/get-data') }}",
                 type: "POST",
                 data: {
                     _token: "{{ csrf_token() }}",
-                    id:"{{ Request::segment(2) }}"
+                    id: "{{ Request::segment(2) }}"
                 }
             },
             columns: [{
                     data: 'DT_RowIndex',
                     name: '#',
-                    orderable: false,
-                    searchable: false
+                    className: 'handle'
+                },
+                {
+                    data: 'position',
+                    title: 'Position',
                 },
                 {
                     data: 'note.title',
@@ -94,11 +99,61 @@
                 {
                     data: 'action',
                     title: 'action',
-                    orderable: false,
-                    searchable: false
                 },
-            ]
+            ],
+            createdRow: function(row, data) {
+                $(row).attr('data-id', data.note.id)
+                $(row).attr('data-position', data.position)
+            }
         });
+
+        $("#table tbody").sortable({
+            items: "tr",
+            handle: '.handle',
+            cursor: 'move',
+            opacity: 0.6,
+            update: function(event, ui) {
+                $(this).children().each(function(index) {
+                    if ($(this).attr('data-position') != (index + 1)) {
+                        $(this).attr('data-position', (index + 1)).addClass('updated')
+                    }
+                })
+                saveNewPositions()
+            }
+        });
+
+        function saveNewPositions() {
+            let positions = []
+            $('.updated').each(function() {
+                positions.push({
+                    id: $(this).attr('data-id'),
+                    position: $(this).attr('data-position')
+                })
+                $(this).removeClass('updated')
+            })
+
+            $.ajax({
+                type: "POST",
+                url: "{{ url('/note-labels/save-positions') }}",
+                dataType: "JSON",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    data: positions
+                },
+                beforeSend: function() {
+                    $('.btn').prop('disabled', true)
+                },
+                success: function(data) {
+                    $('.btn').prop('disabled', false)
+                    table.ajax.reload();
+                },
+                error: function() {
+                    alert('Error Saving!')
+                    $('.btn').prop('disabled', false)
+                    table.ajax.reload();
+                }
+            })
+        }
 
         $('#modal').on('show.bs.modal', function() {
             $('#id').val('')

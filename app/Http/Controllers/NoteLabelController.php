@@ -29,7 +29,7 @@ class NoteLabelController extends Controller
     public function getData(Request $request)
     {
         if ($request->ajax()) {
-            $noteLabels = NoteLabel::with('note', 'label')->get()
+            $noteLabels = NoteLabel::with('note', 'label')->orderBy('position')->get()
                 ->where('note.user_id', '=', 2)
                 ->where('label_id', '=', $request->id);
 
@@ -41,8 +41,20 @@ class NoteLabelController extends Controller
                     return $actionBtn;
                 })
                 ->rawColumns(['action'])
-                ->only(['note.id', 'note.title', 'note.body', 'label.name', 'action'])
+                ->only(['id', 'position', 'note.id', 'note.user_id', 'note.title', 'note.body', 'label.name', 'action'])
                 ->toJson();
+        }
+        abort(403);
+    }
+
+    public function savePositions(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = $request->data;
+            foreach ($data as $dt) {
+                NoteLabel::where('id', $dt['id'])->update(['position' => $dt['position']]);
+            }
+            return 1;
         }
         abort(403);
     }
