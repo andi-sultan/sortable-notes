@@ -41,7 +41,7 @@ class NoteLabelController extends Controller
                     return $actionBtn;
                 })
                 ->rawColumns(['action'])
-                ->only(['note.id', 'note.title', 'note.body', 'label.name','action'])
+                ->only(['note.id', 'note.title', 'note.body', 'label.name', 'action'])
                 ->toJson();
         }
         abort(403);
