@@ -76,13 +76,16 @@
                 }
             },
             columns: [{
-                    data: 'DT_RowIndex',
-                    name: '#',
-                    className: 'handle'
+                    title: 'Move Position',
+                    className: 'handle',
+                    render: function() {
+                        return `<div style="min-width:1rem;" class="text-center">
+                            <i class="ion-android-more-vertical"></i> <i class="ion-android-more-vertical"></i></div>`
+                    }
                 },
                 {
                     data: 'position',
-                    title: 'Position',
+                    title: '#',
                 },
                 {
                     data: 'note.title',
@@ -91,10 +94,6 @@
                 {
                     data: 'note.body',
                     title: 'Content'
-                },
-                {
-                    data: 'label.name',
-                    title: 'Label'
                 },
                 {
                     data: 'action',

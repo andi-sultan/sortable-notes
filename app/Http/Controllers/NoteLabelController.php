@@ -34,7 +34,6 @@ class NoteLabelController extends Controller
                 ->where('label_id', '=', $request->id);
 
             return DataTables::of($noteLabels)
-                ->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     $actionBtn = '<button class="btn btn-sm btn-primary btn-edit" data-toggle="modal" data-target="#modal" onclick="editData(' . $row->id . ')">Edit</button>';
                     $actionBtn .= '<button class="btn btn-sm btn-danger btn-delete" data-id="' . $row->note->id . '" data-title="' . $row->note->title . '">Delete</button>';
