@@ -31,6 +31,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <input type="hidden" class="form-control" name="id" id="id">
+                            <input type="hidden" class="form-control" name="label_id" id="label_id" value="{{ $labelId }}">
                             <input type="hidden" class="form-control" name="insertTo" id="insertTo">
                             <input type="hidden" class="form-control" name="position" id="position">
 
@@ -199,7 +200,7 @@
                 let method = ''
                 const data = $('#form').serialize()
                 if (id) {
-                    // url = "{{ url('note-labels') }}/" + id
+                    url = "{{ url('notes') }}/" + id
                     method = 'PUT'
                 } else {
                     url = "{{ url('note-labels') }}"
@@ -213,7 +214,7 @@
                     data: {
                         _token: "{{ csrf_token() }}",
                         _method: method,
-                        data: data,
+                        data: data
                     },
                     beforeSend: function() {
                         $('.close-editor').prop('disabled', true)

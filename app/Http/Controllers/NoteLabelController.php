@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Note;
 use App\Models\NoteLabel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
 class NoteLabelController extends Controller
@@ -86,7 +88,35 @@ class NoteLabelController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->data;
+
+        // * get data from string
+        // parse_str($request->data, $data);
+
+        $inputs = $request->all();
+        $validator = Validator::make($inputs, [
+            'inputID' => 'required',
+            // other validations
+        ]);
+
+        if ($validator->passes()) {
+
+            return response()->json(['message' => 'User Information has been updated.']);
+        }
+
+        DB::transaction(function () use ($request) {
+            $noteData = $request->data->validate(['body' => 'required']);
+            $noteData['title'] = $request->title;
+            $noteData['user_id'] = 2;
+            $note = Note::create($noteData);
+            $lastInsertedId = $note::orderBy('id', 'DESC')->first()->id;
+
+            $noteLabelData['note_id'] = $lastInsertedId;
+            $noteLabelData = $request->data->validate(['label_ids' => 'required']);
+            NoteLabel::create($noteLabelData);
+            echo json_encode(['lastId' => $lastInsertedId]);
+        });
+        // return response('failed', 403);
     }
 
     /**
