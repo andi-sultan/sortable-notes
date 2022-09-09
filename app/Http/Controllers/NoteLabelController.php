@@ -37,13 +37,15 @@ class NoteLabelController extends Controller
                 ->addColumn('action', function ($row) {
                     $actionBtn = '<div class="d-flex align-items-center">';
                     $actionBtn .= '<button class="btn btn-sm btn-success ml-1 px-3 btn-edit" data-toggle="modal" data-target="#modal"
-                                    onclick="editData(' . $row->id . ')" title="Edit"><i class="ion-edit"></i></button>';
+                                    onclick="editData(' . $row->note->id . ')" title="Edit"><i class="ion-edit"></i></button>';
                     $actionBtn .= '<button class="btn btn-sm btn-danger ml-1 px-3 btn-delete" data-id="' . $row->note->id . '" data-title="' . $row->note->title . '"
                                     title="Delete"><i class="ion-trash-b"></i></button>';
-                    $actionBtn .= '<button class="btn btn-sm btn-primary ml-1 d-flex align-items-center btn-add-above" data-id="' . $row->note->id . '" data-title="' . $row->note->title . '"
-                                    title="Add above"><i class="ion-android-add-circle mr-2"></i><i class="ion-android-arrow-up"></i></button>';
-                    $actionBtn .= '<button class="btn btn-sm btn-primary ml-1 d-flex align-items-center btn-add-below" data-id="' . $row->note->id . '" data-title="' . $row->note->title . '"
-                                    title="Add below"><i class="ion-android-add-circle mr-2"></i><i class="ion-android-arrow-down"></i></button>';
+                    $actionBtn .= '<button class="btn btn-sm btn-primary ml-1 d-flex align-items-center" data-toggle="modal" data-target="#modal"
+                                    onclick="insertData(\'above\',' . $row->position . ')" title="Add above">
+                                    <i class="ion-android-add-circle mr-2"></i><i class="ion-android-arrow-up"></i></button>';
+                    $actionBtn .= '<button class="btn btn-sm btn-primary ml-1 d-flex align-items-center" data-toggle="modal" data-target="#modal"
+                                    onclick="insertData(\'below\',' . $row->position . ')" title="Add below">
+                                    <i class="ion-android-add-circle mr-2"></i><i class="ion-android-arrow-down"></i></button>';
                     $actionBtn .= '</div>';
                     return $actionBtn;
                 })

@@ -31,6 +31,8 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <input type="hidden" class="form-control" name="id" id="id">
+                            <input type="hidden" class="form-control" name="insertTo" id="insertTo">
+                            <input type="hidden" class="form-control" name="position" id="position">
 
                             <div class="form-group row">
                                 <div class="col-sm-12">
@@ -154,15 +156,18 @@
             })
         }
 
-        $('#modal').on('show.bs.modal', function() {
+        function clearModal() {
             $('#id').val('')
             $('#title').val('')
             $('#body').val('')
+            $('#insertTo').val('')
+            $('#position').val('')
             $('#saving').text('')
             $('#body-error').removeClass('d-block')
-        })
+        }
 
         function editData(data_id) {
+            clearModal()
             $.ajax({
                 method: 'GET',
                 url: "{{ url('notes') }}/" + data_id + "/edit",
@@ -175,9 +180,14 @@
             })
         }
 
+        function insertData(insertTo, position) {
+            clearModal()
+            $('#insertTo').val(insertTo)
+            $('#position').val(position)
+        }
+
         function save() {
             const id = $('#id').val();
-            const title = $('#title').val();
             const body = $('#body').val();
 
             if (!body) {
@@ -187,11 +197,12 @@
             } else {
                 let url = ''
                 let method = ''
+                const data = $('#form').serialize()
                 if (id) {
-                    url = "{{ url('notes') }}/" + id
+                    // url = "{{ url('note-labels') }}/" + id
                     method = 'PUT'
                 } else {
-                    url = "{{ url('notes') }}"
+                    url = "{{ url('note-labels') }}"
                     method = 'POST'
                 }
 
@@ -202,8 +213,7 @@
                     data: {
                         _token: "{{ csrf_token() }}",
                         _method: method,
-                        title: title,
-                        body: body
+                        data: data,
                     },
                     beforeSend: function() {
                         $('.close-editor').prop('disabled', true)
@@ -212,10 +222,12 @@
                         if (data.lastId) $('#id').val(data.lastId);
                         $('#saving').text('Saved')
                         $('.close-editor').prop('disabled', false)
+                        table.ajax.reload();
                     },
                     error: function() {
                         $('#saving').text('Error Saving!')
                         $('.close-editor').prop('disabled', false)
+                        table.ajax.reload();
                     }
                 })
             }
