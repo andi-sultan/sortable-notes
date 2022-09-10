@@ -7,6 +7,7 @@ use App\Models\NoteLabel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Validator;
 
 class NoteLabelController extends Controller
 {
@@ -91,28 +92,27 @@ class NoteLabelController extends Controller
         $data = $request->data;
 
         // * get data from string
-        // parse_str($request->data, $data);
+        parse_str($request->data, $data);
 
-        $inputs = $request->all();
-        $validator = Validator::make($inputs, [
-            'inputID' => 'required',
-            // other validations
+        $validator = Validator::make($data, [
+            'body' => 'required',
+            'label_id' => 'required',
         ]);
 
-        if ($validator->passes()) {
-
-            return response()->json(['message' => 'User Information has been updated.']);
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            $errors = $validator->errors();
         }
 
-        DB::transaction(function () use ($request) {
-            $noteData = $request->data->validate(['body' => 'required']);
-            $noteData['title'] = $request->title;
+        DB::transaction(function () use ($data) {
             $noteData['user_id'] = 2;
+            $noteData['title'] = $data['title'];
+            $noteData['body'] = $data['body'];
             $note = Note::create($noteData);
             $lastInsertedId = $note::orderBy('id', 'DESC')->first()->id;
 
             $noteLabelData['note_id'] = $lastInsertedId;
-            $noteLabelData = $request->data->validate(['label_ids' => 'required']);
+            $noteLabelData['label_id'] = $data['label_id'];
             NoteLabel::create($noteLabelData);
             echo json_encode(['lastId' => $lastInsertedId]);
         });

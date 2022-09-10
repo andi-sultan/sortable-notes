@@ -31,7 +31,8 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <input type="hidden" class="form-control" name="id" id="id">
-                            <input type="hidden" class="form-control" name="label_id" id="label_id" value="{{ $labelId }}">
+                            <input type="hidden" class="form-control" name="label_id" id="label_id"
+                                value="{{ $labelId }}">
                             <input type="hidden" class="form-control" name="insertTo" id="insertTo">
                             <input type="hidden" class="form-control" name="position" id="position">
 
