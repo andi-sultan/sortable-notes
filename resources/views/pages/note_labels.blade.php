@@ -104,7 +104,7 @@
                 },
             ],
             createdRow: function(row, data) {
-                $(row).attr('data-id', data.note.id)
+                $(row).attr('data-id', data.id)
                 $(row).attr('data-position', data.position)
             }
         });
