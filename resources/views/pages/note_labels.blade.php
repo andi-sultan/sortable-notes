@@ -5,7 +5,6 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
                     <h3 class="card-title mr-auto">Notes by Label: {{ $labelId }}</h3>
-                    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal">+ Add New</button>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -190,6 +189,7 @@
 
         function save() {
             const id = $('#id').val();
+            const title = $('#title').val();
             const body = $('#body').val();
 
             if (!body) {
@@ -199,24 +199,29 @@
             } else {
                 let url = ''
                 let method = ''
-                const data = $('#form').serialize()
+                let data = null
                 if (id) {
                     url = "{{ url('notes') }}/" + id
-                    method = 'PUT'
+                    data = {
+                        _token: "{{ csrf_token() }}",
+                        _method: 'PUT',
+                        title: title,
+                        body: body
+                    }
                 } else {
                     url = "{{ url('note-labels') }}"
-                    method = 'POST'
+                    data = {
+                        _token: "{{ csrf_token() }}",
+                        _method: 'POST',
+                        data: $('#form').serialize()
+                    }
                 }
 
                 $.ajax({
                     type: "POST",
                     url: url,
                     dataType: "JSON",
-                    data: {
-                        _token: "{{ csrf_token() }}",
-                        _method: method,
-                        data: data
-                    },
+                    data: data,
                     beforeSend: function() {
                         $('.close-editor').prop('disabled', true)
                     },
@@ -248,6 +253,7 @@
         })
 
         $('.close-editor').click(function() {
+            clearModal()
             table.ajax.reload();
         })
 
@@ -259,7 +265,7 @@
                 title: 'Are you sure?',
                 html: 'You are about to delete note "' + title.bold() +
                     '". You won\'t be able to revert this!',
-                type: 'question',
+                icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
