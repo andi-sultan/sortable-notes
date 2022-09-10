@@ -101,7 +101,7 @@ class NoteLabelController extends Controller
 
         if ($validator->fails()) {
             $errors = $validator->errors();
-            $errors = $validator->errors();
+            return response($errors, 403);
         }
 
         DB::transaction(function () use ($data) {
@@ -116,7 +116,6 @@ class NoteLabelController extends Controller
             NoteLabel::create($noteLabelData);
             echo json_encode(['lastId' => $lastInsertedId]);
         });
-        // return response('failed', 403);
     }
 
     /**
