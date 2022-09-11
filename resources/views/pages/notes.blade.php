@@ -180,7 +180,7 @@
 
         $('#table').on('click', '.btn-delete', function() {
             const id = $(this).data('id')
-            const title = $(this).data('title')
+            const title = $(this).data('title').toString()
 
             Swal.fire({
                 title: 'Are you sure?',
