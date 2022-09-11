@@ -109,12 +109,42 @@ class NoteLabelController extends Controller
             $noteData['title'] = $data['title'];
             $noteData['body'] = $data['body'];
             $note = Note::create($noteData);
-            $lastInsertedId = $note::orderBy('id', 'DESC')->first()->id;
+            $lastInsertedNoteId = $note::orderBy('id', 'DESC')->first()->id;
 
-            $noteLabelData['note_id'] = $lastInsertedId;
-            $noteLabelData['label_id'] = $data['label_id'];
-            NoteLabel::create($noteLabelData);
-            echo json_encode(['lastId' => $lastInsertedId]);
+            $newNoteLabelData['note_id'] = $lastInsertedNoteId;
+            $newNoteLabelData['label_id'] = $data['label_id'];
+
+            $toBeOccupiedPosition = 0;
+            if ($data['insertTo'] == 'above') {
+                $toBeOccupiedPosition = $data['position'];
+            } elseif ($data['insertTo'] == 'below') {
+                $toBeOccupiedPosition = $data['position'] + 1;
+            } else {
+                abort(403, 'Note InsertTo should be specified');
+            }
+
+            // shift below notes position
+            $otherNotes = NoteLabel::with('note')
+                ->where('position', '>=', $toBeOccupiedPosition)
+                ->orderBy('position', 'asc')
+                ->get()
+                ->where('note.user_id', '=', 2)
+                ->where('label_id', $data['label_id']);
+
+            $curentPosition = $toBeOccupiedPosition;
+            $newPosition = $toBeOccupiedPosition + 1;
+            foreach ($otherNotes as $note) {
+                NoteLabel::where('note_id', $note->note_id)
+                    ->where('label_id', $data['label_id'])
+                    ->where('position', $curentPosition)
+                    ->update(['position' => $newPosition]);
+                $curentPosition += 1;
+                $newPosition += 1;
+            }
+
+            $newNoteLabelData['position'] = $toBeOccupiedPosition;
+            NoteLabel::create($newNoteLabelData);
+            echo json_encode(['lastId' => $lastInsertedNoteId]);
         });
     }
 

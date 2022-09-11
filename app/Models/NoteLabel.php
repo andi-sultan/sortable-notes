@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class NoteLabel extends Model
 {
     use HasFactory;
-    protected $fillable = ['note_id', 'label_id'];
+    protected $fillable = ['note_id', 'label_id', 'position'];
 
     public function note()
     {
