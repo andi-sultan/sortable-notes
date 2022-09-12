@@ -5,6 +5,8 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
                     <h3 class="card-title mr-auto">Notes by Label: {{ $labelId }}</h3>
+                    <button class="btn btn-sm btn-primary" id="add-new" data-toggle="modal" data-target="#modal">+ Add
+                        New</button>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -166,6 +168,11 @@
             $('#saving').text('')
             $('#body-error').removeClass('d-block')
         }
+
+        $('#add-new').click(() => {
+            clearModal()
+            $('#insertTo').val('below')
+        })
 
         function editData(data_id) {
             clearModal()

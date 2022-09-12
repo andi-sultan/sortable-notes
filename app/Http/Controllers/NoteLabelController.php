@@ -115,10 +115,11 @@ class NoteLabelController extends Controller
             $newNoteLabelData['label_id'] = $data['label_id'];
 
             $toBeOccupiedPosition = 0;
+            $pos = $data['position'] ?: 0;
             if ($data['insertTo'] == 'above') {
-                $toBeOccupiedPosition = $data['position'];
+                $toBeOccupiedPosition = $pos;
             } elseif ($data['insertTo'] == 'below') {
-                $toBeOccupiedPosition = $data['position'] + 1;
+                $toBeOccupiedPosition = $pos + 1;
             } else {
                 abort(403, 'Note InsertTo should be specified');
             }
