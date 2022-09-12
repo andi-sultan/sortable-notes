@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Note;
+use App\Models\NoteLabel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
 
@@ -127,7 +129,10 @@ class NoteController extends Controller
      */
     public function destroy(Note $note)
     {
-        Note::destroy($note->id);
-        echo json_encode(['statusCode' => 200]);
+        DB::transaction(function () use ($note) {
+            Note::destroy($note->id);
+            NoteLabel::where('note_id', $note->id)->delete();
+            echo json_encode(['statusCode' => 200]);
+        });
     }
 }
