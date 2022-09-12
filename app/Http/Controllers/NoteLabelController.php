@@ -115,7 +115,15 @@ class NoteLabelController extends Controller
             $newNoteLabelData['label_id'] = $data['label_id'];
 
             $toBeOccupiedPosition = 0;
-            $pos = $data['position'] ?: 0;
+            $lastPosition = NoteLabel::with('note')
+                ->where('position', '>=', $toBeOccupiedPosition)
+                ->orderBy('position', 'asc')
+                ->get()
+                ->where('note.user_id', '=', 2)
+                ->where('label_id', $data['label_id'])
+                ->max('position');
+            $pos = $data['position'] ?: $lastPosition;
+
             if ($data['insertTo'] == 'above') {
                 $toBeOccupiedPosition = $pos;
             } elseif ($data['insertTo'] == 'below') {
