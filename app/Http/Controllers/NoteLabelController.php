@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Label;
 use App\Models\Note;
 use App\Models\NoteLabel;
 use Illuminate\Http\Request;
@@ -18,14 +19,16 @@ class NoteLabelController extends Controller
      */
     public function index()
     {
-        return view('pages.note_labels', ['title' => 'Notes in Label']);
+        //
     }
 
     public function viewNotesByLabel(Request $request)
     {
+        $labelName = Label::whereId($request->id)->first()->name;
         return view('pages.note_labels', [
             'title' => 'Notes in Label',
-            'labelId' => $request->id
+            'labelId' => $request->id,
+            'labelName' => $labelName
         ]);
     }
 

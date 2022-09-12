@@ -30,7 +30,7 @@ class NoteController extends Controller
     public function getNotes(Request $request)
     {
         if ($request->ajax()) {
-            $note = Note::query()->where('user_id', 2);
+            $note = Note::query()->where('user_id', 2)->doesntHave('noteLabel');
 
             return DataTables::eloquent($note)
                 ->addIndexColumn()
