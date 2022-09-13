@@ -203,7 +203,7 @@
                         error: () => {
                             Swal.fire(
                                 'Failed!',
-                                'Failed to delete label.',
+                                'Failed to delete label. You might still have notes under this label',
                                 'error'
                             ).then(() => {
                                 $('.btn').prop('disabled', false)
