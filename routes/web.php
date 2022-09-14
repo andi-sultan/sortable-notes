@@ -34,9 +34,11 @@ Route::get('/dashboard', function () {
 });
 
 Route::post('/notes/getNotes', [NoteController::class, 'getNotes']);
+Route::post('/notes/set-label', [NoteController::class, 'setLabel']);
 Route::resource('/notes', NoteController::class);
 
 Route::post('/labels/getLabels', [LabelController::class, 'getLabels']);
+Route::get('/labels/get', [LabelController::class, 'getAll']);
 Route::resource('/labels', LabelController::class);
 
 Route::get('/notes-by-label/{id}', [NoteLabelController::class, 'viewNotesByLabel']);

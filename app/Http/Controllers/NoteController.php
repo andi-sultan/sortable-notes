@@ -6,6 +6,8 @@ use App\Models\Note;
 use App\Models\NoteLabel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redis;
+use PDO;
 use Yajra\DataTables\Facades\DataTables;
 
 
@@ -45,8 +47,15 @@ class NoteController extends Controller
                     }
                 })
                 ->addColumn('action', function ($row) {
-                    $actionBtn = '<button class="btn btn-sm btn-primary btn-edit" data-toggle="modal" data-target="#modal" onclick="editData(' . $row->id . ')">Edit</button>';
-                    $actionBtn .= '<button class="btn btn-sm btn-danger btn-delete" data-id="' . $row->id . '" data-title="' . $row->title . '">Delete</button>';
+                    $actionBtn = '<div class="d-flex align-items-center">';
+                    $actionBtn .= '<button class="btn btn-sm btn-success ml-1 px-3 btn-edit" data-toggle="modal" data-target="#modal" onclick="editData(' . $row->id . ')"
+                                    title="Edit"><i class="ion-edit"></i></button>';
+                    $actionBtn .= '<button class="btn btn-sm btn-danger ml-1 px-3 btn-delete" data-id="' . $row->id . '" data-title="' . $row->title . '"
+                                    title="Delete"><i class="ion-trash-b"></i></button>';
+                    $actionBtn .= '<button class="btn btn-sm btn-primary ml-1 d-flex align-items-center btn-add-label"
+                                    data-id="' . $row->id . '" data-toggle="modal" data-target="#modal-add-label"
+                                    title="Add to Label"><i class="ion-android-add-circle mr-2"></i><i class="ion-pricetag"></i></button>';
+                    $actionBtn .= '</div>';
                     return $actionBtn;
                 })
                 ->rawColumns(['action'])
@@ -80,6 +89,23 @@ class NoteController extends Controller
         $lastInsertedId = $note::orderBy('id', 'DESC')->first()->id;
 
         echo json_encode(['statusCode' => 200, 'lastId' => $lastInsertedId]);
+    }
+
+    public function setLabel(Request $request)
+    {
+        $validatedData = $request->validate([
+            'note_id' => 'required|numeric',
+            'label_id' => 'required|numeric'
+        ]);
+
+        $lastPosition = NoteLabel::with('note')->get()
+            ->where('note.user_id', '=', 2)
+            ->where('label_id', $request->label_id)
+            ->max('position');
+        $validatedData['position'] = $lastPosition + 1;
+
+        NoteLabel::create($validatedData);
+        return 1;
     }
 
     /**

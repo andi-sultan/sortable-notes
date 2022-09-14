@@ -4,7 +4,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
-                    <h3 class="card-title mr-auto">Notes</h3>
+                    <h3 class="card-title mr-auto">Notes Without Label</h3>
                     <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal">+ Add New</button>
                 </div>
                 <!-- /.card-header -->
@@ -52,6 +52,42 @@
                         <button type="button" class="btn btn-sm btn-danger close-editor" data-dismiss="modal">
                             <i class="icon-close"></i>
                             Close
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-add-label" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <label class="modal-title text-text-bold-600" id="modalLabel">Add Note Label</label>
+                    <button type="button" class="close close-editor" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="form">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" name="id" id="id-add">
+
+                            <div class="form-group">
+                                <label>Select Label</label>
+                                <select class="form-control select2" id="label" style="width: 100%;"></select>
+                                <div class="invalid-feedback" id="label-error">This field cannot be empty</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer pull-right">
+                        <button type="button" class="btn btn-sm btn-primary" id="save-label">
+                            <i class="icon-close"></i>
+                            Save
+                        </button>
+                        <button type="button" id="cancel-add-label" class="btn btn-sm btn-danger" data-dismiss="modal">
+                            <i class="icon-close"></i>
+                            Cancel
                         </button>
                     </div>
                 </form>
@@ -174,7 +210,7 @@
             }, 500);
         })
 
-        $('.close-editor').click(function() {
+        $('.close-editor, #cancel-add-label').click(function() {
             table.ajax.reload();
         })
 
@@ -227,6 +263,57 @@
                     })
                 }
             })
+        })
+
+        $('#table').on('click', '.btn-add-label', function() {
+            $('#label').html('')
+            $('#id-add').val($(this).attr('data-id'))
+
+            $.ajax({
+                method: "GET",
+                url: "{{ url('labels') }}/get",
+                dataType: "json",
+                success: function(data) {
+                    $('#label').append(`<option value=''>Select Label</option>`)
+                    data.forEach(dt => {
+                        $('#label').append(`<option value='${dt.id}'>${dt.name}</option>`)
+                    });
+                }
+            })
+        })
+
+        $('#save-label').click(() => {
+            $('#label-error').removeClass('d-block')
+
+            const note_id = $('#id-add').val()
+            const label_id = $('#label').val()
+
+            if (!label_id) {
+                $('#label-error').addClass('d-block')
+            } else {
+                $.ajax({
+                    method: "POST",
+                    url: "{{ url('notes') }}/set-label",
+                    dataType: 'json',
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        note_id: note_id,
+                        label_id: label_id
+                    },
+                    beforeSend: () => {
+                        $('.btn').prop('disabled', true)
+                    },
+                    success: () => {
+                        toastr.success('Success adding label!')
+                        table.ajax.reload();
+                        $('.btn').prop('disabled', false)
+                    },
+                    error: () => {
+                        toastr.error('Error adding label')
+                        $('.btn').prop('disabled', false)
+                    }
+                })
+            }
         })
     </script>
 @endsection

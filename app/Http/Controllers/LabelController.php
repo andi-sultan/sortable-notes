@@ -18,10 +18,15 @@ class LabelController extends Controller
         return view('pages.labels', ['title' => 'Labels']);
     }
 
+    public function getAll()
+    {
+        return Label::where('user_id', '=', 2)->get(['id', 'name'])->toJson();
+    }
+
     public function getLabels(Request $request)
     {
         if ($request->ajax()) {
-            $label = Label::query()->where('user_id', 'like', 2);
+            $label = Label::query()->where('user_id', '=', 2);
 
             return DataTables::eloquent($label)
                 ->addIndexColumn()

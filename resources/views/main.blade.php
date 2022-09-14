@@ -20,6 +20,9 @@
     <!-- Tempusdominus Bootstrap 4 -->
     <link rel="stylesheet"
         href="{{ asset('assets') }}/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{{ asset('assets') }}/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="{{ asset('assets') }}/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
     <!-- DataTables -->
     <link rel="stylesheet" href="{{ asset('assets') }}/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="{{ asset('assets') }}/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
@@ -96,6 +99,8 @@
     <!-- Bootstrap 4 -->
     <script src="{{ asset('assets') }}/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('assets') }}/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <!-- Select2 -->
+    <script src="{{ asset('assets') }}/plugins/select2/js/select2.full.min.js"></script>
     <!-- SweetAlert2 -->
     <script src="{{ asset('assets') }}/plugins/sweetalert2/sweetalert2.min.js"></script>
     <!-- Toastr -->
@@ -115,6 +120,17 @@
     <script src="{{ asset('assets') }}/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('assets') }}/dist/js/adminlte.js"></script>
+    <script>
+        $(function() {
+            //Initialize Select2 Elements
+            $('.select2').select2()
+
+            //Initialize Select2 Elements
+            $('.select2bs4').select2({
+                theme: 'bootstrap4'
+            })
+        })
+    </script>
 
     @yield('scripts')
 </body>
