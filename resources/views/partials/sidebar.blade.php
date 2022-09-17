@@ -30,25 +30,18 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                 data-accordion="false">
-                <li class="nav-item">
-                    <a href="{{ url('dashboard') }}" class="nav-link {{ Request::is('dashboard') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Dashboard
-                        </p>
-                    </a>
-                </li>
                 <li class="nav-header">Pages</li>
                 <li class="nav-item">
-                    <a href="{{ url('notes') }}" class="nav-link {{ Request::is('notes*') ? 'active' : '' }}">
+                    <a href="{{ url('notes') }}" class="nav-link {{ Request::is('notes') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
-                            Notes
+                            Non-Labeled Notes
                         </p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url('labels') }}" class="nav-link {{ Request::is('labels*') ? 'active' : '' }}">
+                    <a href="{{ url('labels') }}"
+                        class="nav-link {{ Request::is('labels*') || Request::is('notes-by-label*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             Labels

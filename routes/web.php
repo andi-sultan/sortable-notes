@@ -29,10 +29,6 @@ Route::get('/signup', function () {
     return view('signup');
 });
 
-Route::get('/dashboard', function () {
-    return view('pages.dashboard', ['title' => 'Dashboard']);
-});
-
 Route::post('/notes/getNotes', [NoteController::class, 'getNotes']);
 Route::post('/notes/set-label', [NoteController::class, 'setLabel']);
 Route::resource('/notes', NoteController::class);
