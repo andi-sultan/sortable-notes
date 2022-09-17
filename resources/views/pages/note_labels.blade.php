@@ -89,10 +89,6 @@
                     }
                 },
                 {
-                    data: 'position',
-                    title: '#',
-                },
-                {
                     data: 'note.title',
                     title: 'Title',
                 },
