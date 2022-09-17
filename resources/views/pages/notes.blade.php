@@ -307,10 +307,12 @@
                         toastr.success('Success adding label!')
                         table.ajax.reload();
                         $('.btn').prop('disabled', false)
+                        $('#modal-add-label').modal('toggle');
                     },
                     error: () => {
                         toastr.error('Error adding label')
                         $('.btn').prop('disabled', false)
+                        $('#modal-add-label').modal('toggle');
                     }
                 })
             }
