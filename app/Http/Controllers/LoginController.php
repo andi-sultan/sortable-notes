@@ -22,7 +22,6 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
-            // todo: add user id in session, set id user in every crud functions
             return redirect()->intended('/labels');
         }
 
@@ -34,6 +33,6 @@ class LoginController extends Controller
         Auth::logout();
         request()->session()->invalidate();
         request()->session()->regenerateToken();
-        return redirect('/');
+        return redirect('/login');
     }
 }
