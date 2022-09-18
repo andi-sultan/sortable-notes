@@ -32,7 +32,7 @@ class NoteController extends Controller
     public function getNotes(Request $request)
     {
         if ($request->ajax()) {
-            $note = Note::query()->where('user_id', 2)->doesntHave('noteLabel');
+            $note = Note::query()->where('user_id',  auth()->user()->id)->doesntHave('noteLabel');
 
             return DataTables::eloquent($note)
                 ->addIndexColumn()
@@ -84,7 +84,7 @@ class NoteController extends Controller
     {
         $validatedData = $request->validate(['body' => 'required']);
         $validatedData['title'] = $request->title;
-        $validatedData['user_id'] = 2;
+        $validatedData['user_id'] =  auth()->user()->id;
         $note = Note::create($validatedData);
         $lastInsertedId = $note::orderBy('id', 'DESC')->first()->id;
 
@@ -99,7 +99,7 @@ class NoteController extends Controller
         ]);
 
         $lastPosition = NoteLabel::with('note')->get()
-            ->where('note.user_id', '=', 2)
+            ->where('note.user_id', '=',  auth()->user()->id)
             ->where('label_id', $request->label_id)
             ->max('position');
         $validatedData['position'] = $lastPosition + 1;

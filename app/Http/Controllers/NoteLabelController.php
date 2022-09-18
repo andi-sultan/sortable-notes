@@ -36,7 +36,7 @@ class NoteLabelController extends Controller
     {
         if ($request->ajax()) {
             $noteLabels = NoteLabel::with('note', 'label')->orderBy('position')->get()
-                ->where('note.user_id', '=', 2)
+                ->where('note.user_id', '=',  auth()->user()->id)
                 ->where('label_id', '=', $request->id);
 
             return DataTables::of($noteLabels)
@@ -108,7 +108,7 @@ class NoteLabelController extends Controller
         }
 
         DB::transaction(function () use ($data) {
-            $noteData['user_id'] = 2;
+            $noteData['user_id'] =  auth()->user()->id;
             $noteData['title'] = $data['title'];
             $noteData['body'] = $data['body'];
             $note = Note::create($noteData);
@@ -122,7 +122,7 @@ class NoteLabelController extends Controller
                 ->where('position', '>=', $toBeOccupiedPosition)
                 ->orderBy('position', 'asc')
                 ->get()
-                ->where('note.user_id', '=', 2)
+                ->where('note.user_id', '=',  auth()->user()->id)
                 ->where('label_id', $data['label_id'])
                 ->max('position');
             $pos = $data['position'] ?: $lastPosition;
@@ -140,7 +140,7 @@ class NoteLabelController extends Controller
                 ->where('position', '>=', $toBeOccupiedPosition)
                 ->orderBy('position', 'asc')
                 ->get()
-                ->where('note.user_id', '=', 2)
+                ->where('note.user_id', '=',  auth()->user()->id)
                 ->where('label_id', $data['label_id']);
 
             $curentPosition = $toBeOccupiedPosition;

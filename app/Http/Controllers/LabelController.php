@@ -20,13 +20,13 @@ class LabelController extends Controller
 
     public function getAll()
     {
-        return Label::where('user_id', '=', 2)->get(['id', 'name'])->toJson();
+        return Label::where('user_id', '=',  auth()->user()->id)->get(['id', 'name'])->toJson();
     }
 
     public function getLabels(Request $request)
     {
         if ($request->ajax()) {
-            $label = Label::query()->where('user_id', '=', 2);
+            $label = Label::query()->where('user_id', '=',  auth()->user()->id);
 
             return DataTables::eloquent($label)
                 ->addIndexColumn()
@@ -66,7 +66,7 @@ class LabelController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate(['name' => 'required']);
-        $validatedData['user_id'] = 2;
+        $validatedData['user_id'] =  auth()->user()->id;
         $label = Label::create($validatedData);
         $lastInsertedId = $label::orderBy('id', 'DESC')->first()->id;
 
