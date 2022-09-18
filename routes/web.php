@@ -6,6 +6,7 @@ use App\Http\Controllers\LabelController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\NoteLabelController;
+use App\Http\Controllers\UserProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,4 +43,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/note-labels/get-data', [NoteLabelController::class, 'getData']);
     Route::post('/note-labels/save-positions', [NoteLabelController::class, 'savePositions']);
     Route::resource('/note-labels', NoteLabelController::class);
+
+    Route::get('/user-profile', [UserProfileController::class, 'index']);
+    Route::post('/user-profile/update-profile', [UserProfileController::class, 'updateData']);
+    Route::post('/user-profile/update-password', [UserProfileController::class, 'saveNewPassword']);
 });

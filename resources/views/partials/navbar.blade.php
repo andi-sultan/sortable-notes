@@ -13,7 +13,7 @@
                 <i class="far fa-user mr-1"></i>{{ auth()->user()->name }}<i class="fas fa-caret-down ml-2"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                <a href="#" class="dropdown-item">
+                <a href="{{ url('user-profile') }}" class="dropdown-item">
                     <i class="fas fa-cog mr-2"></i>Settings
                 </a>
                 <div class="dropdown-divider"></div>
