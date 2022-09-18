@@ -67,13 +67,12 @@
                     </div>
                     <div class="input-group mb-3">
                         <input type="password" class="form-control @error('password') is-invalid @enderror"
-                            id="retype-password" placeholder="Retype password" required>
+                            name="password_confirmation" id="retype-password" placeholder="Retype password" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
                             </div>
                         </div>
-                        <div id="retype-error" class="invalid-feedback">Passwords do not match</div>
                     </div>
                     <div class="row">
                         <div class="col-4 offset-8">
@@ -96,15 +95,6 @@
     <script src="{{ asset('assets') }}/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('assets') }}/dist/js/adminlte.min.js"></script>
-    <script>
-        $('#password, #retype-password').change(function() {
-            if ($('#password').val() != $('#retype-password').val()) {
-                $('#retype-error').addClass('d-block')
-            } else {
-                $('#retype-error').removeClass('d-block')
-            }
-        })
-    </script>
 </body>
 
 </html>
