@@ -10,7 +10,7 @@
     <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="#">
-                <i class="far fa-user mr-1"></i>User<i class="fas fa-caret-down ml-2"></i>
+                <i class="far fa-user mr-1"></i>{{ auth()->user()->name }}<i class="fas fa-caret-down ml-2"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                 {{-- <a href="#" class="dropdown-item">
