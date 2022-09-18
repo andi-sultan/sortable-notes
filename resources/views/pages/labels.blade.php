@@ -144,10 +144,12 @@
                         if (data.lastId) $('#id').val(data.lastId);
                         $('#saving').text('Saved')
                         $('.close-editor').prop('disabled', false)
+                        table.ajax.reload();
                     },
                     error: function() {
                         $('#saving').text('Error Saving!')
                         $('.close-editor').prop('disabled', false)
+                        table.ajax.reload();
                     }
                 })
             }
