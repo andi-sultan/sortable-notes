@@ -20,7 +20,7 @@
 <body class="hold-transition register-page">
     <div class="register-box">
         <div class="register-logo">
-            <a href="{{ url('/') }}"><b>ZK</b>Notes</a>
+            <a href="{{ url('/') }}"><b>{{ config('app.name') }}</b></a>
         </div>
 
         <div class="card">

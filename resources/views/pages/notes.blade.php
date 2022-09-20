@@ -70,23 +70,25 @@
                 </div>
                 <form id="form">
                     <div class="modal-body">
-                        <div class="form-group">
-                            <input type="hidden" class="form-control" name="id" id="id-add">
+                        <input type="hidden" class="form-control" name="id" id="id-add">
 
-                            <div class="form-group">
-                                <label>Select Label</label>
-                                <select class="form-control select2" id="label" style="width: 100%;"></select>
-                                <div class="invalid-feedback" id="label-error">This field cannot be empty</div>
-                            </div>
+                        <div class="form-group">
+                            <label>Select Label</label>
+                            <select class="form-control select2" id="label" style="width: 100%;"></select>
+                            <div class="invalid-feedback" id="label-error">This field cannot be empty</div>
+                        </div>
+                        <div class="form-group d-flex">
+                            <button type="button" class="btn btn-sm btn-success mr-auto" onclick="addLabelOptions()">
+                                Refresh
+                            </button>
+                            <a href="{{ url('/labels') }}" target="_blank" class="btn btn-sm btn-primary">Add new label</a>
                         </div>
                     </div>
                     <div class="modal-footer pull-right">
                         <button type="button" class="btn btn-sm btn-primary" id="save-label">
-                            <i class="icon-close"></i>
                             Save
                         </button>
                         <button type="button" id="cancel-add-label" class="btn btn-sm btn-danger" data-dismiss="modal">
-                            <i class="icon-close"></i>
                             Cancel
                         </button>
                     </div>
@@ -131,12 +133,16 @@
             ]
         });
 
-        $('#modal').on('show.bs.modal', function() {
+        $('#modal').on('hidden.bs.modal', function() {
             $('#id').val('')
             $('#title').val('')
             $('#body').val('')
             $('#saving').text('')
             $('#body-error').removeClass('d-block')
+        })
+
+        $('#modal-add-label').on('hidden.bs.modal', function() {
+            $('#label-error').removeClass('d-block')
         })
 
         function editData(data_id) {
@@ -267,9 +273,8 @@
             })
         })
 
-        $('#table').on('click', '.btn-add-label', function() {
+        function addLabelOptions() {
             $('#label').html('')
-            $('#id-add').val($(this).attr('data-id'))
 
             $.ajax({
                 method: "GET",
@@ -282,6 +287,12 @@
                     });
                 }
             })
+        }
+
+        $('#table').on('click', '.btn-add-label', function() {
+            $('#id-add').val($(this).attr('data-id'))
+
+            addLabelOptions()
         })
 
         $('#save-label').click(() => {
