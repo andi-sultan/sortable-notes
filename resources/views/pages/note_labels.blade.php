@@ -86,19 +86,30 @@
                     render: function() {
                         return `<div style="min-width:1rem;" class="text-center">
                             <i class="ion-android-more-vertical"></i> <i class="ion-android-more-vertical"></i></div>`
+                    },
+                    searchable: false
+                },
+                {
+                    data: 'content',
+                    title: 'Content',
+                    render: function(data) {
+                        function shorten(str, maxLen, separator = ' ') {
+                            if (str.length <= maxLen) return str;
+                            return str.substr(0, str.lastIndexOf(separator, maxLen)) + '...';
+                        }
+                        let titlePattern = /(?<=<note-title>)(.*?)(?=<\/note-title>)/gmi
+                        let bodyPattern = /(?<=<note-body>)(.*?)(?=<\/note-body>)/gmi
+                        let title = data.match(titlePattern);
+                        title = shorten(title[0], 60)
+                        let body = data.match(bodyPattern);
+                        body = shorten(body[0], 100)
+                        return `<b>${title}</b><hr>${body}`
                     }
-                },
-                {
-                    data: 'note.title',
-                    title: 'Title',
-                },
-                {
-                    data: 'note.body',
-                    title: 'Content'
                 },
                 {
                     data: 'action',
                     title: 'action',
+                    searchable: false
                 },
             ],
             createdRow: function(row, data) {
