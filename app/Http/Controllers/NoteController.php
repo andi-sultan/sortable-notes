@@ -50,7 +50,7 @@ class NoteController extends Controller
                     return '<note-title>' . $row->title . '</note-title><note-body>' . $row->body . '</note-body>';
                 })
                 ->addColumn('action', function ($row) {
-                    $actionBtn = '<div class="d-flex align-items-center">';
+                    $actionBtn = '<div class="d-none d-md-flex align-items-center">';
                     $actionBtn .= '<button class="btn btn-sm btn-success ml-1 px-3 btn-edit" data-toggle="modal" data-target="#modal" onclick="editData(' . $row->id . ')"
                                     title="Edit"><i class="ion-edit"></i></button>';
                     $actionBtn .= '<button class="btn btn-sm btn-danger ml-1 px-3 btn-delete" data-id="' . $row->id . '" data-title="' . $row->title . '"
@@ -59,9 +59,19 @@ class NoteController extends Controller
                                     data-id="' . $row->id . '" data-toggle="modal" data-target="#modal-add-label"
                                     title="Add to Label"><i class="ion-android-add-circle mr-2"></i><i class="ion-pricetag"></i></button>';
                     $actionBtn .= '</div>';
+
+                    $actionBtn .= '<div class="d-md-none">';
+                    $actionBtn .= '<button class="btn btn-sm btn-success ml-1 mb-2 px-3 btn-edit" data-toggle="modal" data-target="#modal" onclick="editData(' . $row->id . ')"
+                                    title="Edit"><i class="ion-edit"></i></button>';
+                    $actionBtn .= '<button class="btn btn-sm btn-danger ml-1 mb-2 px-3 btn-delete" data-id="' . $row->id . '" data-title="' . $row->title . '"
+                                    title="Delete"><i class="ion-trash-b"></i></button>';
+                    $actionBtn .= '<button class="btn btn-sm btn-primary ml-1 mb-2 d-flex align-items-center btn-add-label"
+                                    data-id="' . $row->id . '" data-toggle="modal" data-target="#modal-add-label"
+                                    title="Add to Label"><i class="ion-android-add-circle mr-2"></i><i class="ion-pricetag"></i></button>';
+                    $actionBtn .= '</div>';
                     return $actionBtn;
                 })
-                ->rawColumns(['content','action'])
+                ->rawColumns(['content', 'action'])
                 ->toJson();
         }
         abort(403);
