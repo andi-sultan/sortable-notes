@@ -46,6 +46,9 @@ class NoteController extends Controller
                         });
                     }
                 })
+                ->addColumn('content', function ($row) {
+                    return '<note-title>' . $row->title . '</note-title><note-body>' . $row->body . '</note-body>';
+                })
                 ->addColumn('action', function ($row) {
                     $actionBtn = '<div class="d-flex align-items-center">';
                     $actionBtn .= '<button class="btn btn-sm btn-success ml-1 px-3 btn-edit" data-toggle="modal" data-target="#modal" onclick="editData(' . $row->id . ')"
@@ -58,7 +61,7 @@ class NoteController extends Controller
                     $actionBtn .= '</div>';
                     return $actionBtn;
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['content','action'])
                 ->toJson();
         }
         abort(403);

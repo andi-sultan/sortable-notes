@@ -103,7 +103,7 @@
                         title = shorten(title[0], 60)
                         let body = data.match(bodyPattern);
                         body = shorten(body[0], 100)
-                        return `<b>${title}</b><hr>${body}`
+                        return `<span style="font-size:1.1em;font-weight:600;">${title}</span><hr>${body}`
                     }
                 },
                 {
