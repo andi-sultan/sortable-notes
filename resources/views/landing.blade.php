@@ -24,7 +24,6 @@
                 @else
                     <nav class="nav nav-masthead justify-content-center float-md-end">
                         <a class="nav-link fw-bold py-1 px-0" href="{{ url('/login') }}">Login</a>
-                        <a class="nav-link fw-bold py-1 px-0" href="{{ url('/signup') }}">Sign Up</a>
                     </nav>
                 @endif
             </div>
@@ -38,9 +37,8 @@
                     <a href="{{ url('/notes') }}" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Go to
                         your notes</a>
                 @else
-                    <a href="{{ url('/signup') }}"
-                        class="btn btn-lg btn-secondary fw-bold border-white bg-white">Create
-                        an account</a>
+                    <a href="{{ url('/login') }}"
+                        class="btn btn-lg btn-secondary fw-bold border-white bg-white">Login</a>
                 @endif
             </p>
         </main>
