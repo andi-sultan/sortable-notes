@@ -92,6 +92,10 @@ class LabelController extends Controller
      */
     public function edit(Label $label)
     {
+        if ($label->user_id !== auth()->user()->id) {
+            abort(403);
+        }
+
         $data = $label->only('id', 'name');
         echo json_encode($data);
     }

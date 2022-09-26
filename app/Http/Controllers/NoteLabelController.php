@@ -24,11 +24,16 @@ class NoteLabelController extends Controller
 
     public function viewNotesByLabel(Request $request)
     {
-        $labelName = Label::whereId($request->id)->first()->name;
+        $label = Label::whereId($request->id)->first();
+
+        if ($label->user_id !== auth()->user()->id) {
+            abort(403);
+        }
+
         return view('pages.note_labels', [
             'title' => 'Notes in Label',
             'labelId' => $request->id,
-            'labelName' => $labelName
+            'labelName' => $label->name
         ]);
     }
 
