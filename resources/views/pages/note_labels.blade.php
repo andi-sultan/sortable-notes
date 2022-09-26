@@ -266,6 +266,14 @@
             }, 500);
         })
 
+        $(document).on("submit", "form", function(e) {
+            e.preventDefault();
+            $('#saving').text('Saving...')
+            $('#name').removeClass('is-invalid')
+            $('#name-error').removeClass('d-block')
+            save()
+        });
+
         $('.close-editor').click(function() {
             clearModal()
             table.ajax.reload();
