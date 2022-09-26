@@ -230,8 +230,8 @@
         $(document).on("submit", "form", function(e) {
             e.preventDefault();
             $('#saving').text('Saving...')
-            $('#name').removeClass('is-invalid')
-            $('#name-error').removeClass('d-block')
+            $('#body').removeClass('is-invalid')
+            $('#body-error').removeClass('d-block')
             save()
         });
 
