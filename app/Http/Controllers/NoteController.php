@@ -140,6 +140,10 @@ class NoteController extends Controller
      */
     public function edit(Note $note)
     {
+        if ($note->user_id !== auth()->user()->id) {
+            abort(403);
+        }
+
         $data = $note->only('id', 'title', 'body');
         echo json_encode($data);
     }
