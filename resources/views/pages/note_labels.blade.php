@@ -91,20 +91,7 @@
                 },
                 {
                     data: 'content',
-                    title: 'Content',
-                    render: function(data) {
-                        function shorten(str, maxLen, separator = ' ') {
-                            if (str.length <= maxLen) return str;
-                            return str.substr(0, str.lastIndexOf(separator, maxLen)) + '...';
-                        }
-                        let titlePattern = /(?<=<note-title>)(.*?)(?=<\/note-title>)/gmi
-                        let bodyPattern = /(?<=<note-body>)(.*?)(?=<\/note-body>)/gmi
-                        let title = data.match(titlePattern);
-                        title = shorten(title[0], 60)
-                        let body = data.match(bodyPattern);
-                        body = shorten(body[0], 100)
-                        return `<span style="font-size:1.1em;font-weight:600;">${title}</span><hr>${body}`
-                    }
+                    title: 'Content'
                 },
                 {
                     data: 'action',

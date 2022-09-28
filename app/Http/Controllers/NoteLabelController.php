@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Label;
 use App\Models\Note;
+use App\Models\Label;
 use App\Models\NoteLabel;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
@@ -46,7 +47,22 @@ class NoteLabelController extends Controller
 
             return DataTables::of($noteLabels)
                 ->addColumn('content', function ($row) {
-                    return '<note-title>' . $row->note->title . '</note-title><note-body>' . $row->note->body . '</note-body>';
+                    $title = Str::words($row->note->title, 20);
+                    $body  = Str::words($row->note->body, 20);
+                    $body  = Str::replace("\n", "<br>", $body);
+                    $body  = Str::replace(" ", "&nbsp", $body);
+
+                    $content = '<div class="d-none d-md-block">';
+                    $content .= '<span style="font-size:1.1em;font-weight:600;">' . $title . '</span><hr>' . $body;
+                    $content .= '</div>';
+
+                    $title_mobile = Str::words($row->title, 10);
+                    $body_mobile  = Str::words($row->body, 10);
+
+                    $content .= '<div class="d-md-none">';
+                    $content .= '<span style="font-size:1.1em;font-weight:600;">' . $title_mobile . '</span><hr>' . $body_mobile;
+                    $content .= '</div>';
+                    return $content;
                 })
                 ->addColumn('action', function ($row) {
                     $actionBtn = '<div class="d-none d-md-flex align-items-center">';
