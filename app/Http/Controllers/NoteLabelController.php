@@ -56,8 +56,8 @@ class NoteLabelController extends Controller
                     $content .= '<span style="font-size:1.1em;font-weight:600;">' . $title . '</span><hr>' . $body;
                     $content .= '</div>';
 
-                    $title_mobile = Str::words($row->title, 10);
-                    $body_mobile  = Str::words($row->body, 10);
+                    $title_mobile = Str::words($row->note->title, 10);
+                    $body_mobile  = Str::words($row->note->body, 10);
 
                     $content .= '<div class="d-md-none">';
                     $content .= '<span style="font-size:1.1em;font-weight:600;">' . $title_mobile . '</span><hr>' . $body_mobile;
