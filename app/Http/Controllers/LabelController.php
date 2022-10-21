@@ -125,7 +125,8 @@ class LabelController extends Controller
     public function destroy(Label $label)
     {
         $note_ids = [];
-        foreach (NoteLabel::where('label_id', $label->id)->get() as $note) {
+        foreach (NoteLabel::where('label_id', $label->id)
+            ->withTrashed()->get() as $note) {
             $note_ids[] = $note->note_id;
         }
 
