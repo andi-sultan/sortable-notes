@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Label;
+use App\Models\NoteLabel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
 class LabelController extends Controller
@@ -122,7 +124,15 @@ class LabelController extends Controller
      */
     public function destroy(Label $label)
     {
-        Label::destroy($label->id);
+        $note_ids = [];
+        foreach (NoteLabel::where('label_id', $label->id)->get() as $note) {
+            $note_ids[] = $note->note_id;
+        }
+
+        DB::transaction(function () use ($note_ids, $label) {
+            NoteLabel::whereIn('note_id', $note_ids)->forceDelete();
+            Label::destroy($label->id);
+        });
         return true;
     }
 }
