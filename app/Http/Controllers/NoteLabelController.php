@@ -27,6 +27,10 @@ class NoteLabelController extends Controller
     {
         $label = Label::whereId($request->id)->first();
 
+        if (!$label) {
+            return redirect('/labels');
+        }
+
         if ($label->user_id !== auth()->user()->id) {
             abort(403);
         }
