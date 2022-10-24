@@ -27,7 +27,6 @@
                     </a>
                 </li>
 
-                <li class="nav-header">Labels</li>
                 <li class="nav-item  {{ Request::is('notes-by-label/*') ? 'menu-is-opening menu-open' : '' }}">
                     <a href="#" class="nav-link  {{ Request::is('notes-by-label/*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-tag"></i>
