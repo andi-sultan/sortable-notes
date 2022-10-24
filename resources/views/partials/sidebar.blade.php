@@ -19,13 +19,36 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url('labels') }}"
-                        class="nav-link {{ Request::is('labels*') || Request::is('notes-by-label*') ? 'active' : '' }}">
+                    <a href="{{ url('labels') }}" class="nav-link {{ Request::is('labels') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
-                            Labels
+                            Manage Labels
                         </p>
                     </a>
+                </li>
+
+                <li class="nav-header">Labels</li>
+                <li class="nav-item  {{ Request::is('notes-by-label/*') ? 'menu-is-opening menu-open' : '' }}">
+                    <a href="#" class="nav-link  {{ Request::is('notes-by-label/*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-tag"></i>
+                        <p>
+                            Labels
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        @foreach ($menuLabels as $menuLabel)
+                            <li class="nav-item">
+                                <a href="{{ url('notes-by-label') . '/' . $menuLabel['id'] }}"
+                                    class="nav-link {{ Request::is('notes-by-label' . '/' . $menuLabel['id']) ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-tag"></i>
+                                    <p>
+                                        {{ $menuLabel['name'] }}
+                                    </p>
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
                 </li>
             </ul>
         </nav>
