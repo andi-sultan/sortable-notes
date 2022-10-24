@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Label;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +26,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // Show User Labels in sidebar menu
+        View::composer('*', function () {
+            if (Auth::check()) {
+                $label = Label::where('user_id', '=',  Auth::user()->id)->get(['id', 'name'])->toArray();
+                View::share('menuLabels', $label);
+            }
+        });
     }
 }
