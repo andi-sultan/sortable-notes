@@ -39,6 +39,8 @@
     <link rel="stylesheet" href="{{ asset('assets') }}/plugins/daterangepicker/daterangepicker.css">
     <!-- summernote -->
     <link rel="stylesheet" href="{{ asset('assets') }}/plugins/summernote/summernote-bs4.min.css">
+
+    <link rel="stylesheet" href="{{ asset('assets') }}/plugins/tagify/tagify.css">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -109,6 +111,7 @@
     <script src="{{ asset('assets') }}/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
     <script src="{{ asset('assets') }}/plugins/datatables-buttons/js/buttons.print.min.js"></script>
     <script src="{{ asset('assets') }}/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <script src="{{ asset('assets') }}/plugins/tagify/tagify.min.js"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('assets') }}/dist/js/adminlte.js"></script>
     <script>

@@ -46,6 +46,12 @@
 
                             <div class="form-group row">
                                 <div class="col-sm-12">
+                                    <input name="tags" id="tags" placeholder="Tags">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-12">
                                     <textarea class="form-control" name="body" id="body" placeholder="Content" rows="10"></textarea>
                                     <div class="invalid-feedback" id="body-error">This field cannot be empty</div>
                                 </div>
@@ -67,6 +73,11 @@
 
 @section('scripts')
     <script>
+        const tags = new Tagify($('#tags')[0], {
+            duplicates: false,
+            delimiters: "null",
+        })
+
         const table = $('#table').DataTable({
             processing: true,
             serverSide: true,
