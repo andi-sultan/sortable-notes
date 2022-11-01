@@ -56,6 +56,6 @@ class DatabaseSeeder extends Seeder
         ]);
         Tag::factory(20)->create();
 
-        NoteTag::factory(5)->create();
+        NoteTag::factory(100)->create();
     }
 }
