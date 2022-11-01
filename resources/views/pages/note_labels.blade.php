@@ -167,6 +167,7 @@
         function clearModal() {
             $('#id').val('')
             $('#title').val('')
+            tags.removeAllTags()
             $('#body').val('')
             $('#insertTo').val('')
             $('#position').val('')
@@ -189,6 +190,8 @@
                     $('#id').val(data.id)
                     $('#title').val(data.title)
                     $('#body').val(data.body)
+
+                    // tags.addTags([])
                 }
             })
         }
