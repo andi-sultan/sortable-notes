@@ -54,17 +54,16 @@ class NoteLabelController extends Controller
                     $title = Str::words($row->note->title, 100);
                     $body  = Str::words($row->note->body, 100);
                     $body  = Str::replace("\n", "<br>", $body);
-                    $body  = Str::replace(" ", "&nbsp", $body);
 
-                    $content = '<div class="d-none d-md-block">';
-                    $content .= '<span style="font-size:1.1em;font-weight:600;">' . $title . '</span><hr>' . $body;
+                    $content = '<div class="d-none d-md-block" style="max-width: 75ch;">';
+                    $content .= '<p style="font-size:1.1em;font-weight:600;">' . $title . '</p><hr><p>' . $body . '</p>';
                     $content .= '</div>';
 
                     $title_mobile = Str::words($row->note->title, 10);
                     $body_mobile  = Str::words($row->note->body, 10);
 
-                    $content .= '<div class="d-md-none">';
-                    $content .= '<span style="font-size:1.1em;font-weight:600;">' . $title_mobile . '</span><hr>' . $body_mobile;
+                    $content .= '<div class="d-md-none" style="max-width: 75ch;">';
+                    $content .= '<p style="font-size:1.1em;font-weight:600;">' . $title_mobile . '</p><hr><p>' . $body_mobile . '</p>';
                     $content .= '</div>';
                     return $content;
                 })
