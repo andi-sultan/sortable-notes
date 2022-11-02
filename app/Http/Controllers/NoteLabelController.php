@@ -51,8 +51,8 @@ class NoteLabelController extends Controller
 
             return DataTables::of($noteLabels)
                 ->addColumn('content', function ($row) {
-                    $title = Str::words($row->note->title, 20);
-                    $body  = Str::words($row->note->body, 20);
+                    $title = Str::words($row->note->title, 100);
+                    $body  = Str::words($row->note->body, 100);
                     $body  = Str::replace("\n", "<br>", $body);
                     $body  = Str::replace(" ", "&nbsp", $body);
 
